@@ -108,7 +108,7 @@ training_operation = optimizer.minimize(loss_operation)
 
 # Train the model (depend of power of pc max 500 with a good computer)
 # batch_size = 1
-batch_size = 100
+batch_size = 255
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
