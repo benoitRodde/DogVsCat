@@ -13,8 +13,10 @@ import random
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-
+# resulat
 targets = []
+
+# images (nbImges, longeur, largeur, profondeur(ici 3 car 3 couleur de pixels))
 features = []
 
 files = glob.glob('train/*.jpg')
@@ -37,8 +39,8 @@ targets = np.array(targets)
 #     plt.imshow(features[a], cmap="gray")
 #     plt.show()
 
-# train
-
+# TRAIN
+# jeu d'entrainement/validation (x: features y : label)
 X_train, X_valid, y_train, y_valid = train_test_split(
     features, targets, test_size=0.05, random_state=42)
 
@@ -48,6 +50,7 @@ X_train, X_valid, y_train, y_valid = train_test_split(
 
 # Placeholder
 x = tf.placeholder(tf.float32, (None, 75, 75, 3), name="x")
+# label encodé sur 2 valeur exemple : [0,1]
 y = tf.placeholder(tf.float32, (None, 2), name="y")
 dropout = tf.placeholder(tf.float32, (None), name="dropout")
 
@@ -57,6 +60,7 @@ def create_conv(prev, filter_size, nb):
     conv_W = tf.Variable(tf.truncated_normal(
         shape=(filter_size, filter_size, int(prev.get_shape()[-1]), nb)))
     conv_b = tf.Variable(tf.zeros(nb))
+    #stride => nbr de pixel de deplacement
     conv = tf.nn.conv2d(prev, conv_W, strides=[
                         1, 1, 1, 1], padding='SAME') + conv_b
     # Activation: relu
